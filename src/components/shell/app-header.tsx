@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutGrid, Search, ShieldCheck, Upload } from "lucide-react";
+import { Map, Search, ShieldCheck, Upload } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { Button } from "@/components/ui/button";
 
 const nav = [
-  { href: "/browse", label: "浏览", icon: LayoutGrid },
-  { href: "/upload", label: "上传", icon: Upload },
+  { href: "/browse", label: "地图", icon: Map },
+  { href: "/upload", label: "上传地图", icon: Upload },
   { href: "/moderation", label: "审核", icon: ShieldCheck }
 ];
 
@@ -21,8 +21,8 @@ export function AppHeader() {
         <Link href="/" className="flex items-center gap-2">
           <div className="h-9 w-9 rounded-lg bg-primary text-primary-foreground grid place-items-center font-bold">W</div>
           <div className="leading-tight">
-            <div className="text-sm font-semibold">创意工坊</div>
-            <div className="text-xs text-muted-foreground">Maps · Mods · Taskpacks</div>
+            <div className="text-sm font-semibold">红警地图工坊</div>
+            <div className="text-xs text-muted-foreground">Upload · Download · Hot Maps</div>
           </div>
         </Link>
 
@@ -49,7 +49,7 @@ export function AppHeader() {
         <Link href="/browse" className="ml-auto md:ml-3">
           <Button variant="secondary" className="hidden md:inline-flex">
             <Search className="h-4 w-4" />
-            搜索资源
+            搜索地图
           </Button>
           <Button variant="secondary" className="md:hidden" aria-label="搜索">
             <Search className="h-4 w-4" />

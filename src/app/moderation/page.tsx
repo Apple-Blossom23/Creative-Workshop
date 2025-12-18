@@ -12,9 +12,7 @@ import type { Resource } from "@/lib/types";
 
 function typeLabel(t: Resource["type"]) {
   if (t === "map") return "地图";
-  if (t === "mod") return "模组";
-  if (t === "taskpack") return "任务包";
-  return "插件";
+  return "地图";
 }
 
 export default function ModerationPage() {
@@ -26,7 +24,7 @@ export default function ModerationPage() {
     let alive = true;
     setLoading(true);
     mockApi.resources
-      .list({ status: "pending_review", type: "all", sort: "new" })
+      .list({ status: "pending_review", type: "map", sort: "new" })
       .then((res) => {
         if (!alive) return;
         setItems(res);
@@ -64,8 +62,8 @@ export default function ModerationPage() {
     <AppShell>
       <div className="flex flex-col gap-6">
         <div>
-          <div className="text-xl font-semibold">资源审核</div>
-          <div className="mt-1 text-sm text-muted-foreground">展示审核队列与操作按钮（mock）。</div>
+          <div className="text-xl font-semibold">地图审核</div>
+          <div className="mt-1 text-sm text-muted-foreground">仅展示待审核地图（mock）。</div>
         </div>
 
         {loading ? (

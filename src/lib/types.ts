@@ -1,4 +1,4 @@
-export type ResourceType = "map" | "mod" | "taskpack" | "plugin";
+export type ResourceType = "map";
 
 export type ResourceStatus = "draft" | "pending_review" | "published" | "rejected";
 

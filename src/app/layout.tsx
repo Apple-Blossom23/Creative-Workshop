@@ -3,8 +3,8 @@ import type { ReactNode } from "react";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "创意工坊 · Workshop",
-  description: "地图 / 模组 / 任务包 创意工坊 UI Demo"
+  title: "红警地图工坊",
+  description: "红警地图上传与下载：热门地图推荐、标签搜索、详情与评论（UI Demo）"
 };
 
 export default function RootLayout({

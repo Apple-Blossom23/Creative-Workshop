@@ -1,10 +1,22 @@
 import Link from "next/link";
-import { ArrowRight, LayoutGrid, Map, Package, Puzzle } from "lucide-react";
+import { ArrowRight, Flame, Sparkles, Upload } from "lucide-react";
 import { AppShell } from "@/components/shell/app-shell";
+import { ResourceCard } from "@/components/resource/resource-card";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { resources } from "@/lib/mock/db";
 
 export default function Page() {
+  const maps = resources.filter((r) => r.type === "map" && r.status === "published");
+  const hot = [...maps]
+    .sort((a, b) => (b.likes + b.downloads / 10) - (a.likes + a.downloads / 10))
+    .slice(0, 6);
+  const latest = [...maps].sort((a, b) => +new Date(b.updatedAt) - +new Date(a.updatedAt)).slice(0, 6);
+
+  const totalDownloads = maps.reduce((sum, r) => sum + r.downloads, 0);
+  const authorCount = new Set(maps.map((r) => r.author.id)).size;
+
   return (
     <AppShell>
       <div className="grid gap-6">
@@ -12,26 +24,40 @@ export default function Page() {
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background/80 px-3 py-1 text-xs text-muted-foreground">
               <span className="h-2 w-2 rounded-full bg-emerald-500" />
-              Mock 后端 · 审核/上架/评论完整 UI 流程
+              地图上传 · 下载 · 热门推荐（当前使用 mock 数据）
             </div>
             <h1 className="mt-4 text-2xl font-semibold tracking-tight md:text-4xl">
-              一个为地图 / 模组 / 任务包打造的创意工坊 UI
+              红警地图工坊
             </h1>
             <p className="mt-3 text-sm text-muted-foreground md:text-base">
-              按类型上传资源，进入审核队列，发布上架；资源支持标签搜索、详情页讨论与创作者体系。
+              为玩家提供一个更好用的地图上传与下载入口：发现热门地图、查看详情与评论、提交地图等待审核上架。
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Link href="/browse">
                 <Button size="lg">
-                  立即浏览
+                  浏览地图
                   <ArrowRight className="h-4 w-4" />
                 </Button>
               </Link>
               <Link href="/upload">
                 <Button size="lg" variant="secondary">
-                  上传资源
+                  上传地图
                 </Button>
               </Link>
+            </div>
+
+            <div className="mt-6 flex flex-wrap gap-2">
+              {[
+                { label: "#合作", q: "合作" },
+                { label: "#PVP", q: "PVP" },
+                { label: "#生存", q: "生存" },
+                { label: "#防守", q: "防守" },
+                { label: "#海岛", q: "海岛" }
+              ].map((t) => (
+                <Link key={t.q} href={`/browse?q=${encodeURIComponent(t.q)}`}>
+                  <Badge className="hover:bg-muted">{t.label}</Badge>
+                </Link>
+              ))}
             </div>
           </div>
 
@@ -39,58 +65,91 @@ export default function Page() {
           <div className="pointer-events-none absolute -bottom-28 -left-24 h-72 w-72 rounded-full bg-sky-500/10 blur-3xl" />
         </section>
 
-        <section className="grid gap-4 md:grid-cols-4">
-          <Feature icon={Map} title="地图" desc="关卡 / 生存 / PVP 地图" />
-          <Feature icon={Puzzle} title="模组" desc="玩法、系统、平衡改动" />
-          <Feature icon={Package} title="任务包" desc="剧情任务链 / 引导" />
-          <Feature icon={LayoutGrid} title="插件" desc="服务器工具与监控" />
+        <section className="grid gap-4 md:grid-cols-3">
+          <Card>
+            <CardHeader>
+              <div className="text-sm font-semibold">已上架地图</div>
+              <div className="mt-1 text-sm text-muted-foreground">当前展示 {maps.length} 张地图</div>
+            </CardHeader>
+          </Card>
+          <Card>
+            <CardHeader>
+              <div className="text-sm font-semibold">累计下载</div>
+              <div className="mt-1 text-sm text-muted-foreground">{totalDownloads.toLocaleString()} 次（mock）</div>
+            </CardHeader>
+          </Card>
+          <Card>
+            <CardHeader>
+              <div className="text-sm font-semibold">创作者</div>
+              <div className="mt-1 text-sm text-muted-foreground">{authorCount} 位活跃作者（mock）</div>
+            </CardHeader>
+          </Card>
+        </section>
+
+        <section className="grid gap-4">
+          <div className="flex items-end justify-between gap-3">
+            <div>
+              <div className="inline-flex items-center gap-2 text-sm font-semibold">
+                <Flame className="h-4 w-4" />
+                热门地图
+              </div>
+              <div className="mt-1 text-sm text-muted-foreground">按热度排序（喜欢 + 下载）</div>
+            </div>
+            <Link href="/browse"><Button variant="secondary">查看更多</Button></Link>
+          </div>
+          <div className="grid gap-4 md:grid-cols-3">
+            {hot.map((r) => (
+              <ResourceCard key={r.id} r={r} />
+            ))}
+          </div>
+        </section>
+
+        <section className="grid gap-4">
+          <div className="flex items-end justify-between gap-3">
+            <div>
+              <div className="inline-flex items-center gap-2 text-sm font-semibold">
+                <Sparkles className="h-4 w-4" />
+                最新上架
+              </div>
+              <div className="mt-1 text-sm text-muted-foreground">最近更新的地图</div>
+            </div>
+            <Link href="/browse?sort=new"><Button variant="secondary">按最新浏览</Button></Link>
+          </div>
+          <div className="grid gap-4 md:grid-cols-3">
+            {latest.map((r) => (
+              <ResourceCard key={r.id} r={r} />
+            ))}
+          </div>
         </section>
 
         <section className="grid gap-4 md:grid-cols-2">
           <Card>
             <CardHeader>
-              <div className="text-sm font-semibold">推荐你先看</div>
-              <div className="mt-1 text-sm text-muted-foreground">浏览页做了：类型筛选、标签筛选、排序、搜索与卡片展示。</div>
+              <div className="text-sm font-semibold">快速开始</div>
+              <div className="mt-1 text-sm text-muted-foreground">先去浏览页按标签/热度/最新筛选地图。</div>
             </CardHeader>
             <CardContent>
               <Link href="/browse">
-                <Button variant="secondary">打开浏览页</Button>
+                <Button variant="secondary">打开地图列表</Button>
               </Link>
             </CardContent>
           </Card>
           <Card>
             <CardHeader>
-              <div className="text-sm font-semibold">资源详情 + 评论</div>
-              <div className="mt-1 text-sm text-muted-foreground">详情页包含信息区、动作按钮、评论发布与列表（mock 异步）。</div>
+              <div className="text-sm font-semibold">发布你的地图</div>
+              <div className="mt-1 text-sm text-muted-foreground">填写标题、简介、标签并提交审核（mock 流程）。</div>
             </CardHeader>
             <CardContent>
-              <Link href="/resource/r_1001">
-                <Button variant="secondary">打开示例详情</Button>
+              <Link href="/upload">
+                <Button variant="secondary">
+                  <Upload className="h-4 w-4" />
+                  去上传
+                </Button>
               </Link>
             </CardContent>
           </Card>
         </section>
       </div>
     </AppShell>
-  );
-}
-
-function Feature({
-  icon: Icon,
-  title,
-  desc
-}: {
-  icon: React.ComponentType<{ className?: string }>;
-  title: string;
-  desc: string;
-}) {
-  return (
-    <div className="rounded-xl border border-border bg-card p-4">
-      <div className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-muted">
-        <Icon className="h-5 w-5" />
-      </div>
-      <div className="mt-3 text-sm font-semibold">{title}</div>
-      <div className="mt-1 text-sm text-muted-foreground">{desc}</div>
-    </div>
   );
 }

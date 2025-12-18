@@ -63,10 +63,11 @@ export const mockApi = {
       await sleep(240);
       return resources.find((r) => r.id === id) ?? null;
     },
-    async listTags(): Promise<string[]> {
+    async listTags(query: ResourceQuery = {}): Promise<string[]> {
       await sleep(150);
+      const filtered = resources.filter((r) => matchQuery(r, query));
       const set = new Set<string>();
-      for (const r of resources) for (const t of r.tags) set.add(t);
+      for (const r of filtered) for (const t of r.tags) set.add(t);
       return [...set].sort((a, b) => a.localeCompare(b, "zh"));
     },
     async submitForReview(_id: string): Promise<{ ok: true }> {

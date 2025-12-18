@@ -6,25 +6,18 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import type { ResourceType } from "@/lib/types";
 import { mockApi } from "@/lib/mock/api";
 
-const types: { key: ResourceType; label: string; hint: string }[] = [
-  { key: "map", label: "地图", hint: "关卡文件、预览图、说明" },
-  { key: "mod", label: "模组", hint: "zip/pack、版本与依赖" },
-  { key: "taskpack", label: "任务包", hint: "任务配置、剧情文本" },
-  { key: "plugin", label: "插件", hint: "服务端插件、管理工具" }
-];
+const hintText = "地图文件、预览图、开局位说明、版本与更新日志";
 
 export default function UploadPage() {
-  const [type, setType] = useState<ResourceType>("map");
   const [title, setTitle] = useState("");
   const [summary, setSummary] = useState("");
   const [tags, setTags] = useState("合作,生存");
   const [submitting, setSubmitting] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
 
-  const hint = useMemo(() => types.find((t) => t.key === type)?.hint ?? "", [type]);
+  const hint = useMemo(() => hintText, []);
 
   async function submit() {
     setSubmitting(true);
@@ -42,25 +35,13 @@ export default function UploadPage() {
       <div className="grid gap-6 md:grid-cols-[1fr_360px]">
         <Card>
           <CardHeader>
-            <div className="text-lg font-semibold">上传资源</div>
-            <div className="mt-1 text-sm text-muted-foreground">按类型上传，提交后进入审核队列（mock）。</div>
+            <div className="text-lg font-semibold">上传地图</div>
+            <div className="mt-1 text-sm text-muted-foreground">提交后进入审核队列（mock）。</div>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <div className="text-sm font-medium">资源类型</div>
-              <div className="mt-2 flex flex-wrap gap-2">
-                {types.map((t) => (
-                  <Button
-                    key={t.key}
-                    size="sm"
-                    variant={type === t.key ? "primary" : "secondary"}
-                    onClick={() => setType(t.key)}
-                  >
-                    {t.label}
-                  </Button>
-                ))}
-              </div>
-              <div className="mt-2 text-sm text-muted-foreground">建议内容：{hint}</div>
+              <div className="text-sm font-medium">建议内容</div>
+              <div className="mt-2 text-sm text-muted-foreground">{hint}</div>
             </div>
 
             <div>

@@ -6,9 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 
 function typeLabel(t: Resource["type"]) {
   if (t === "map") return "地图";
-  if (t === "mod") return "模组";
-  if (t === "taskpack") return "任务包";
-  return "插件";
+  return "地图";
 }
 
 export function ResourceCard({ r }: { r: Resource }) {
