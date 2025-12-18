@@ -1,6 +1,6 @@
 # Workshop UI Demo
 
-Next.js + Tailwind 的创意工坊前端 UI（mock 数据）。
+Next.js + Tailwind 的地图工坊前端 UI（mock 数据）。
 
 ## Run
 
