@@ -129,7 +129,7 @@ export default function ResourceDetailPage() {
                   下载 / 订阅
                 </Button>
                 <Button className="w-full" size="lg" variant="secondary">
-                  <Heart className="h-4 w-4" />
+                  <Star className="h-4 w-4" />
                   收藏
                 </Button>
                 <Button className="w-full" size="lg" variant="ghost">
