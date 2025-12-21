@@ -20,9 +20,7 @@ export function ResourceCard({ r }: { r: Resource }) {
             alt={r.title}
             className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
           />
-          <div className="absolute left-3 top-3">
-            <Badge className="border-transparent bg-background/85 text-foreground">{typeLabel(r.type)}</Badge>
-          </div>
+          
         </div>
         <CardContent className="pt-4">
           <div className="flex items-start justify-between gap-3">

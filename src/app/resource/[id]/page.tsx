@@ -81,11 +81,6 @@ export default function ResourceDetailPage() {
           <section className="overflow-hidden rounded-2xl border border-border bg-card">
             <div className="grid gap-6 p-6 md:grid-cols-[1.2fr_0.8fr]">
               <div>
-                <div className="flex flex-wrap items-center gap-2">
-                  <Badge className="border-transparent bg-primary text-primary-foreground">{typeLabel(r.type)}</Badge>
-                  <Badge>{statusLabel}</Badge>
-                  <Badge>v{r.version}</Badge>
-                </div>
                 <h1 className="mt-3 text-2xl font-semibold tracking-tight">{r.title}</h1>
                 <p className="mt-2 text-sm text-muted-foreground">{r.summary}</p>
 
@@ -131,7 +126,7 @@ export default function ResourceDetailPage() {
 
                 <Button className="w-full" size="lg">
                   <Download className="h-4 w-4" />
-                  下载 / 订阅
+                  下载
                 </Button>
                 <Button className="w-full" size="lg" variant="secondary">
                   <Star className="h-4 w-4" />
