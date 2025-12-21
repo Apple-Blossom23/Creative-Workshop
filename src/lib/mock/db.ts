@@ -36,6 +36,7 @@ export const resources: Resource[] = [
     downloads: 12840,
     likes: 965,
     rating: 4.6,
+    createdAt: "2025-10-15T10:00:00.000Z",
     updatedAt: "2025-12-10T10:00:00.000Z",
     status: "published",
     version: "1.4.2"
@@ -51,6 +52,7 @@ export const resources: Resource[] = [
     downloads: 56210,
     likes: 4820,
     rating: 4.8,
+    createdAt: "2025-08-20T08:30:00.000Z",
     updatedAt: "2025-12-17T07:10:00.000Z",
     status: "published",
     version: "2.0.1"
@@ -66,6 +68,7 @@ export const resources: Resource[] = [
     downloads: 93420,
     likes: 9122,
     rating: 4.7,
+    createdAt: "2025-09-05T14:20:00.000Z",
     updatedAt: "2025-12-12T13:00:00.000Z",
     status: "published",
     version: "1.1.0"
@@ -81,6 +84,7 @@ export const resources: Resource[] = [
     downloads: 30112,
     likes: 2105,
     rating: 4.5,
+    createdAt: "2025-11-01T16:45:00.000Z",
     updatedAt: "2025-12-08T09:40:00.000Z",
     status: "published",
     version: "1.0.3"
@@ -96,6 +100,7 @@ export const resources: Resource[] = [
     downloads: 18990,
     likes: 1330,
     rating: 4.3,
+    createdAt: "2025-07-12T11:30:00.000Z",
     updatedAt: "2025-12-03T12:20:00.000Z",
     status: "published",
     version: "0.9.8"
@@ -111,6 +116,7 @@ export const resources: Resource[] = [
     downloads: 74800,
     likes: 6900,
     rating: 4.9,
+    createdAt: "2025-06-18T09:15:00.000Z",
     updatedAt: "2025-12-16T15:30:00.000Z",
     status: "published",
     version: "3.2.0"
@@ -126,6 +132,7 @@ export const resources: Resource[] = [
     downloads: 41050,
     likes: 3200,
     rating: 4.6,
+    createdAt: "2025-10-28T13:20:00.000Z",
     updatedAt: "2025-12-14T06:50:00.000Z",
     status: "published",
     version: "1.2.4"
@@ -141,6 +148,7 @@ export const resources: Resource[] = [
     downloads: 9700,
     likes: 690,
     rating: 4.2,
+    createdAt: "2025-12-15T18:30:00.000Z",
     updatedAt: "2025-12-18T02:05:00.000Z",
     status: "published",
     version: "1.0.0"
@@ -156,6 +164,7 @@ export const resources: Resource[] = [
     downloads: 0,
     likes: 0,
     rating: 0,
+    createdAt: "2025-12-18T08:00:00.000Z",
     updatedAt: "2025-12-18T09:15:00.000Z",
     status: "pending_review",
     version: "0.1.0"

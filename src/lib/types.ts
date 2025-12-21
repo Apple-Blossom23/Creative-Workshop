@@ -29,6 +29,7 @@ export type Resource = {
   downloads: number;
   likes: number;
   rating: number;
+  createdAt: string;
   updatedAt: string;
   status: ResourceStatus;
   version: string;

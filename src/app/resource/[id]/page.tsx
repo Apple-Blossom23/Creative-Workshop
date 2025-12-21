@@ -107,7 +107,12 @@ export default function ResourceDetailPage() {
                   <div className="inline-flex items-center gap-1">
                     <Heart className="h-4 w-4" /> {r.likes.toLocaleString()} 喜欢
                   </div>
-                  <div>更新于 {new Date(r.updatedAt).toLocaleDateString("zh-CN")}</div>
+                  
+                </div>
+
+                <div className="mt-5 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+                  首次创建时间： {new Date(r.createdAt).toLocaleDateString("zh-CN")}&nbsp;&nbsp;
+                  最近更新时间： {new Date(r.updatedAt).toLocaleDateString("zh-CN")}
                 </div>
               </div>
 
