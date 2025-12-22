@@ -5,6 +5,9 @@ import { usePathname } from "next/navigation";
 import { Map, Search, ShieldCheck, Upload } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { Button } from "@/components/ui/button";
+import { UserMenu } from "@/components/shell/user-menu";
+import { authApi } from "@/lib/api/services/auth";
+import { useEffect, useState } from "react";
 
 const nav = [
   { href: "/browse", label: "地图", icon: Map },
@@ -14,6 +17,14 @@ const nav = [
 
 export function AppHeader() {
   const pathname = usePathname();
+  const [user, setUser] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const currentUser = authApi.getCurrentUser();
+    setUser(currentUser);
+    setLoading(false);
+  }, []);
 
   return (
     <header className="sticky top-0 z-30 border-b border-border/70 bg-background/80 backdrop-blur">
@@ -56,9 +67,15 @@ export function AppHeader() {
           </Button>
         </Link>
 
-        <Link href="/auth/login" className="hidden sm:block">
-          <Button>登录</Button>
-        </Link>
+        {!loading && (
+          user ? (
+            <UserMenu user={user} />
+          ) : (
+            <Link href="/auth/login" className="hidden sm:block">
+              <Button>登录</Button>
+            </Link>
+          )
+        )}
       </div>
     </header>
   );

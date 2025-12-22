@@ -2,26 +2,39 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { AppShell } from "@/components/shell/app-shell";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { mockApi } from "@/lib/mock/api";
+import { authApi } from "@/lib/api/services/auth";
+import type { LoginRequest } from "@/lib/api/types/auth";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("demo@workshop.com");
-  const [password, setPassword] = useState("123456");
+  const router = useRouter();
+  const [formData, setFormData] = useState<LoginRequest>({
+    usernameOrEmail: "",
+    password: "",
+  });
   const [loading, setLoading] = useState(false);
-  const [msg, setMsg] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  async function onLogin() {
+  async function onLogin(e: React.FormEvent) {
+    e.preventDefault();
     setLoading(true);
-    setMsg(null);
+    setError(null);
+
     try {
-      const s = await mockApi.auth.login(email, password);
-      setMsg(`已登录：${s.user.name} (@${s.user.handle})`);
-    } catch {
-      setMsg("登录失败（mock）");
+      const response = await authApi.login(formData);
+      
+      if (response.code === 200 && response.data) {
+        authApi.saveAuth(response.data);
+        router.push('/');
+      } else {
+        setError(response.message || '登录失败');
+      }
+    } catch (err: any) {
+      setError(err.message || '登录失败，请稍后重试');
     } finally {
       setLoading(false);
     }
@@ -33,19 +46,42 @@ export default function LoginPage() {
         <Card>
           <CardHeader>
             <div className="text-lg font-semibold">登录</div>
-            <div className="mt-1 text-sm text-muted-foreground">mock 登录，不会真的校验账号。</div>
+            <div className="mt-1 text-sm text-muted-foreground">使用用户名或邮箱登录</div>
           </CardHeader>
           <CardContent className="space-y-3">
-            <div>
-              <div className="text-sm font-medium">邮箱</div>
-              <div className="mt-1"><Input value={email} onChange={(e) => setEmail(e.target.value)} /></div>
-            </div>
-            <div>
-              <div className="text-sm font-medium">密码</div>
-              <div className="mt-1"><Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} /></div>
-            </div>
-            <Button onClick={onLogin} disabled={loading} className="w-full">{loading ? "登录中" : "登录"}</Button>
-            {msg && <div className="rounded-lg border border-border bg-muted/30 p-3 text-sm">{msg}</div>}
+            {error && (
+              <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-600">
+                {error}
+              </div>
+            )}
+            <form onSubmit={onLogin} className="space-y-3">
+              <div>
+                <div className="text-sm font-medium">用户名/邮箱</div>
+                <div className="mt-1">
+                  <Input 
+                    value={formData.usernameOrEmail} 
+                    onChange={(e) => setFormData({ ...formData, usernameOrEmail: e.target.value })}
+                    required
+                    placeholder="请输入用户名或邮箱"
+                  />
+                </div>
+              </div>
+              <div>
+                <div className="text-sm font-medium">密码</div>
+                <div className="mt-1">
+                  <Input 
+                    type="password" 
+                    value={formData.password} 
+                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                    required
+                    placeholder="请输入密码"
+                  />
+                </div>
+              </div>
+              <Button type="submit" disabled={loading} className="w-full">
+                {loading ? "登录中..." : "登录"}
+              </Button>
+            </form>
             <div className="text-sm text-muted-foreground">
               没有账号？ <Link href="/auth/register" className="text-primary underline">注册</Link>
             </div>
