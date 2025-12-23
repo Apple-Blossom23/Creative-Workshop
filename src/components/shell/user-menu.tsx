@@ -5,14 +5,10 @@ import { User, LogOut, Settings, Heart } from "lucide-react";
 import { Avatar } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuItem, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { authApi } from "@/lib/api/services/auth";
+import type { UserProfile } from "@/lib/api/types/user";
 
 interface UserMenuProps {
-  user: {
-    userId: number;
-    username: string;
-    nickname?: string;
-    role: string;
-  };
+  user: UserProfile;
 }
 
 export function UserMenu({ user }: UserMenuProps) {
@@ -33,7 +29,11 @@ export function UserMenu({ user }: UserMenuProps) {
     <DropdownMenu
       trigger={
         <div className="flex items-center gap-2 rounded-lg px-2 py-1 hover:bg-muted transition-colors">
-          <Avatar fallback={getInitial()} className="h-8 w-8" />
+          <Avatar 
+            src={user.avatar} 
+            fallback={getInitial()} 
+            className="h-8 w-8" 
+          />
           <div className="hidden sm:block text-left">
             <div className="text-sm font-medium">{user.nickname || user.username}</div>
             <div className="text-xs text-muted-foreground">{user.role}</div>

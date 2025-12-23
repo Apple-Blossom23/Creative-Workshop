@@ -10,6 +10,17 @@ export const userApi = {
     return apiClient.put<UserProfile>('/user/profile', data);
   },
 
+  uploadAvatar: async (file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    return apiClient.post<string>('/user/avatar', formData);
+  },
+
+  removeAvatar: async () => {
+    return apiClient.delete('/user/avatar');
+  },
+
   changePassword: async (data: ChangePasswordRequest) => {
     return apiClient.post('/user/password', data);
   },

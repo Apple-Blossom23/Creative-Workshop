@@ -7,7 +7,9 @@ import { cn } from "@/lib/cn";
 import { Button } from "@/components/ui/button";
 import { UserMenu } from "@/components/shell/user-menu";
 import { authApi } from "@/lib/api/services/auth";
+import { userApi } from "@/lib/api/services/user";
 import { useEffect, useState } from "react";
+import type { UserProfile } from "@/lib/api/types/user";
 
 const nav = [
   { href: "/browse", label: "地图", icon: Map },
@@ -17,13 +19,44 @@ const nav = [
 
 export function AppHeader() {
   const pathname = usePathname();
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const currentUser = authApi.getCurrentUser();
-    setUser(currentUser);
-    setLoading(false);
+    const fetchUserProfile = async () => {
+      const currentUser = authApi.getCurrentUser();
+      if (currentUser) {
+        try {
+          const response = await userApi.getProfile();
+          if (response.code === 200 && response.data) {
+            setUser(response.data);
+          }
+        } catch (error) {
+          console.error('Failed to fetch user profile:', error);
+        }
+      }
+      setLoading(false);
+    };
+
+    fetchUserProfile();
+  }, [pathname]);
+
+  useEffect(() => {
+    // 监听头像更新事件
+    const handleAvatarUpdate = (event: CustomEvent) => {
+      setUser((prevUser) => {
+        if (prevUser) {
+          return { ...prevUser, avatar: event.detail.avatar };
+        }
+        return prevUser;
+      });
+    };
+
+    window.addEventListener('avatarUpdated', handleAvatarUpdate as EventListener);
+
+    return () => {
+      window.removeEventListener('avatarUpdated', handleAvatarUpdate as EventListener);
+    };
   }, []);
 
   return (

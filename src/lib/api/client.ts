@@ -27,10 +27,22 @@ class ApiClient {
     try {
       const token = this.getToken();
       
-      const headers: Record<string, string> = {
-        'Content-Type': 'application/json',
-        ...(options.headers as Record<string, string>),
-      };
+      // 准备headers
+      const headers: Record<string, string> = {};
+      
+      // 如果body是FormData，不要设置Content-Type，让浏览器自动设置
+      if (!(options.body instanceof FormData)) {
+        headers['Content-Type'] = 'application/json';
+      }
+      
+      // 合并用户自定义headers，但不要覆盖浏览器设置的Content-Type
+      if (options.headers) {
+        for (const [key, value] of Object.entries(options.headers as Record<string, string>)) {
+          if (!(key.toLowerCase() === 'content-type' && options.body instanceof FormData)) {
+            headers[key] = value;
+          }
+        }
+      }
 
       if (token) {
         headers['Authorization'] = `Bearer ${token}`;
@@ -72,6 +84,14 @@ class ApiClient {
   }
 
   async post<T>(endpoint: string, body?: any): Promise<ApiResponse<T>> {
+    // 如果是FormData，直接发送，不需要JSON.stringify
+    if (body instanceof FormData) {
+      return this.request<T>(endpoint, {
+        method: 'POST',
+        body: body,
+      });
+    }
+    
     return this.request<T>(endpoint, {
       method: 'POST',
       body: JSON.stringify(body),
