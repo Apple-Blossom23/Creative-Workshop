@@ -81,12 +81,15 @@ export default function ProfilePage() {
       if (response.code === 200 && response.data) {
         setProfile(response.data);
         setSuccess("资料更新成功");
+        setTimeout(() => setSuccess(""), 1000);
         setEditing(false);
       } else {
         setError(response.message || "更新失败");
+        setTimeout(() => setError(""), 1000);
       }
     } catch (err: any) {
       setError(err.message || "更新失败");
+      setTimeout(() => setError(""), 1000);
     } finally {
       setSaving(false);
     }
@@ -109,7 +112,7 @@ export default function ProfilePage() {
       if (response.code === 200 && response.data) {
         setProfile({ ...profile!, avatar: response.data });
         setSuccess("头像更新成功");
-        setTimeout(() => setSuccess(""), 3000);
+        setTimeout(() => setSuccess(""), 1000);
         
         // 触发自定义事件通知其他组件头像已更新
         window.dispatchEvent(new CustomEvent('avatarUpdated', { 
@@ -117,9 +120,11 @@ export default function ProfilePage() {
         }));
       } else {
         setError(response.message || "头像更新失败");
+        setTimeout(() => setError(""), 1000);
       }
     } catch (err: any) {
       setError(err.message || "头像更新失败");
+      setTimeout(() => setError(""), 1000);
     } finally {
       setUploadingAvatar(false);
     }
@@ -135,15 +140,17 @@ export default function ProfilePage() {
       const response = await userApi.changeEmail(emailFormData);
       if (response.code === 200) {
         setSuccess("邮箱修改成功");
+        setTimeout(() => setSuccess(""), 1000);
         setChangingEmail(false);
         setEmailFormData({ newEmail: "", password: "" });
         await loadProfile();
-        setTimeout(() => setSuccess(""), 3000);
       } else {
         setError(response.message || "修改失败");
+        setTimeout(() => setError(""), 1000);
       }
     } catch (err: any) {
       setError(err.message || "修改失败");
+      setTimeout(() => setError(""), 1000);
     } finally {
       setEmailLoading(false);
     }
@@ -156,11 +163,13 @@ export default function ProfilePage() {
 
     if (passwordFormData.newPassword !== confirmPassword) {
       setError("两次输入的新密码不一致");
+      setTimeout(() => setError(""), 1000);
       return;
     }
 
     if (passwordFormData.newPassword.length < 6 || passwordFormData.newPassword.length > 50) {
       setError("新密码长度必须在6-50个字符之间");
+      setTimeout(() => setError(""), 1000);
       return;
     }
 
@@ -170,15 +179,17 @@ export default function ProfilePage() {
       const response = await userApi.changePassword(passwordFormData);
       if (response.code === 200) {
         setSuccess("密码修改成功");
+        setTimeout(() => setSuccess(""), 1000);
         setChangingPassword(false);
         setPasswordFormData({ oldPassword: "", newPassword: "" });
         setConfirmPassword("");
-        setTimeout(() => setSuccess(""), 3000);
       } else {
         setError(response.message || "修改失败");
+        setTimeout(() => setError(""), 1000);
       }
     } catch (err: any) {
       setError(err.message || "修改失败");
+      setTimeout(() => setError(""), 1000);
     } finally {
       setPasswordLoading(false);
     }
@@ -193,12 +204,14 @@ export default function ProfilePage() {
       if (response.code === 200) {
         setProfile({ ...profile!, avatar: undefined });
         setSuccess("头像已移除");
-        setTimeout(() => setSuccess(""), 3000);
+        setTimeout(() => setSuccess(""), 1000);
       } else {
         setError(response.message || "头像移除失败");
+        setTimeout(() => setError(""), 1000);
       }
     } catch (err: any) {
       setError(err.message || "头像移除失败");
+      setTimeout(() => setError(""), 1000);
     } finally {
       setUploadingAvatar(false);
     }
@@ -230,22 +243,27 @@ export default function ProfilePage() {
 
   return (
     <AppShell>
+      {/* 悬浮提示信息 */}
+      {error && (
+        <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 max-w-md w-full mx-4">
+          <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-600 shadow-lg">
+            {error}
+          </div>
+        </div>
+      )}
+
+      {success && (
+        <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 max-w-md w-full mx-4">
+          <div className="rounded-lg border border-green-200 bg-green-50 p-4 text-sm text-green-600 shadow-lg">
+            {success}
+          </div>
+        </div>
+      )}
+
       <div className="max-w-4xl mx-auto space-y-6">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold">个人中心</h1>
         </div>
-
-        {error && (
-          <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-600">
-            {error}
-          </div>
-        )}
-
-        {success && (
-          <div className="rounded-lg border border-green-200 bg-green-50 p-3 text-sm text-green-600">
-            {success}
-          </div>
-        )}
 
         <div className="grid gap-6 md:grid-cols-3">
           <Card className="md:col-span-1">
