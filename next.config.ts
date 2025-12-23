@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { API_SERVER_URL } from './src/lib/api/config';
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
@@ -6,7 +7,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: 'http://localhost:8080/api/:path*',
+        destination: `${API_SERVER_URL}/:path*`,
       },
     ];
   },
