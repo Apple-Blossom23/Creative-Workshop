@@ -290,7 +290,19 @@ export default function ProfilePage() {
               <div className="space-y-2 text-sm">
                 <div className="flex items-center justify-between">
                   <span className="text-muted-foreground">等级</span>
-                  <span className="font-medium">Lv.{profile.level}</span>
+                  <span className={`inline-flex items-center px-2 py-1 rounded-lg text-xs font-bold border-2
+                    ${profile.level >= 6 ? 'border-purple-500 text-purple-700 bg-purple-50' :
+                      profile.level >= 4 ? 'border-blue-500 text-blue-700 bg-blue-50' :
+                      profile.level >= 2 ? 'border-green-500 text-green-700 bg-green-50' :
+                      'border-gray-400 text-gray-600 bg-gray-50'}`}>
+                    Lv.{profile.level}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-muted-foreground">角色</span>
+                  <span className="font-medium">
+                    {profile.role === "ADMIN" ? "管理员" : profile.role === "CREATOR" ? "创作者" : "普通用户"}
+                  </span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-muted-foreground">闪电</span>
