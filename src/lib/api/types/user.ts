@@ -5,12 +5,12 @@ export interface UserProfile {
   email: string;
   avatar?: string;
   bio?: string;
-  role: string;
+  role: 'USER' | 'CREATOR' | 'ADMIN';
   level: number;
   lightning: number;
   drops: number;
   inviteCode: string;
-  status: string;
+  status: 'ACTIVE' | 'BANNED';
   createdAt: string;
 }
 
