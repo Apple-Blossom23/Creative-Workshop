@@ -5,47 +5,53 @@ import { CalendarCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/cn";
+import { checkinApi } from "@/lib/api/services/checkin";
+import { useToast } from "@/components/ui/toast";
 
 interface CheckinDialogProps {
   onClose: () => void;
   onSuccess: (reward: { drops: number }) => void;
 }
 
-// 生成正态分布的随机数 (1-15, 中位数概率最大)
-function generateNormalDistribution(): number {
-  // 使用 Box-Muller 变换生成正态分布
-  // 均值为 8 (中位数), 标准差为 2.5
-  const u1 = Math.random();
-  const u2 = Math.random();
-  const z0 = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
-  
-  // 转换到 1-15 范围，均值为 8
-  const value = Math.round(8 + z0 * 2.5);
-  
-  // 确保在 1-15 范围内
-  return Math.max(1, Math.min(15, value));
-}
-
 export function CheckinDialog({ onClose, onSuccess }: CheckinDialogProps) {
   const [checking, setChecking] = useState(false);
   const [completed, setCompleted] = useState(false);
   const [reward, setReward] = useState({ drops: 0 });
+  const { addToast } = useToast();
 
   const handleCheckin = async () => {
     setChecking(true);
     
-    await new Promise(resolve => setTimeout(resolve, 800));
-    
-    const dropsReward = generateNormalDistribution();
-    
-    setReward({ drops: dropsReward });
-    setCompleted(true);
-    setChecking(false);
-    
-    setTimeout(() => {
-      onSuccess({ drops: dropsReward });
+    try {
+      const response = await checkinApi.checkin();
+      
+      if (response.code === 200 && response.data) {
+        const dropsReward = response.data.drops;
+        setReward({ drops: dropsReward });
+        setCompleted(true);
+        
+        setTimeout(() => {
+          onSuccess({ drops: dropsReward });
+          onClose();
+        }, 2000);
+      } else {
+        addToast({
+          title: "签到失败",
+          description: response.message || "请稍后重试",
+          variant: "error",
+        });
+        onClose();
+      }
+    } catch (error: any) {
+      addToast({
+        title: "签到失败",
+        description: error.message || "今日已签到或网络错误",
+        variant: "error",
+      });
       onClose();
-    }, 2000);
+    } finally {
+      setChecking(false);
+    }
   };
 
   return (
