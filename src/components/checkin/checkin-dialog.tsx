@@ -55,7 +55,7 @@ export function CheckinDialog({ onClose, onSuccess }: CheckinDialogProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm animate-in fade-in" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs animate-in fade-in" onClick={onClose}>
       <Card className="w-full max-w-md p-6 mx-4 animate-in zoom-in-95" onClick={(e) => e.stopPropagation()}>
         {!completed ? (
           <div className="flex flex-col items-center gap-4">

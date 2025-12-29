@@ -13,7 +13,7 @@ export function ResourceCard({ r }: { r: Resource }) {
   return (
     <Link href={`/resource/${r.id}`} className="block">
       <Card className="group overflow-hidden transition hover:shadow-md">
-        <div className="relative aspect-[16/10] overflow-hidden bg-muted">
+        <div className="relative aspect-16/10 overflow-hidden bg-muted">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={r.coverUrl ?? "https://images.unsplash.com/photo-1523413651479-597eb2da0ad6?auto=format&fit=crop&w=1200&q=60"}
