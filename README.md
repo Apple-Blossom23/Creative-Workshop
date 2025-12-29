@@ -1,19 +1,19 @@
 # Map Workshop Frontend
 
-基于 Next.js 16.1 + Tailwind CSS 的地图工坊前端
+基于 Next.js 16 + Tailwind CSS 4 的地图工坊前端
 
 ## 技术栈
 
-- **React 19** - UI 基础库
-- **Next.js 16.1** - 全栈 React 框架
-- **TypeScript** - 类型安全
-- **Tailwind CSS** - 样式框架
+- **React 19.2** - UI 基础库
+- **Next.js 16** - 全栈 React 框架
+- **TypeScript 5.9** - 类型安全
+- **Tailwind CSS 4** - 样式框架
 - **Lucide React** - 图标库
 
 ## 前置要求
 
-- Node.js 18+ 
-- npm 或 yarn 或 pnpm
+- Node.js 20+ 
+- npm (建议) 或 yarn 或 pnpm
 
 ## 快速开始
 
@@ -47,7 +47,7 @@ npm run dev
 - `/auth/login` - 用户登录
 - `/auth/register` - 用户注册
 
-## 与后端集成
+## 后端集成
 
 1. 修改 `src/lib/api/client.ts` 中的 API 基础 URL
 2. 更新认证 token 处理逻辑
