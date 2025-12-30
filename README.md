@@ -31,10 +31,10 @@ npm run dev
 
 前端服务默认将在 `http://localhost:3000` 启动。
 
-## 浏览器版本要求：
-| [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="Edge" width="24px" height="24px" />](https://godban.github.io/browsers-support-badges/)<br>Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](https://godban.github.io/browsers-support-badges/)<br>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](https://godban.github.io/browsers-support-badges/)<br>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](https://godban.github.io/browsers-support-badges/)<br>Safari |
+## 浏览器版本要求
+| [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="Edge" width="24px" height="24px" />](https://godban.github.io/browsers-support-badges/)<br>Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](https://godban.github.io/browsers-support-badges/)<br>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](https://godban.github.io/browsers-support-badges/)<br>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](https://godban.github.io/browsers-support-badges/)<br>Safari |
 | --- | --- | --- | --- |
-| Edge >=111 | Firefox >=128 | Chrome >=111 | Safari >=16.4 |
+| Edge >=111 | Chrome >=111 | Firefox >=128 | Safari >=16.4 |
 
 
 ## 功能页面
@@ -63,7 +63,7 @@ npm run dev
 
 ```
 src/
-├── app/                 # Next.js App Router 页面
+├── app/                # Next.js App Router 页面
 │   ├── auth/           # 认证相关页面
 │   ├── browse/         # 浏览页面
 │   ├── moderation/     # 审核页面
@@ -79,11 +79,11 @@ src/
 │   └── ui/             # UI 基础组件
 ├── hooks/              # 自定义 Hooks
 ├── lib/                # 工具库
-│   ├── api/           # API 相关
-│   │   ├── services/  # API 服务
-│   │   ├── types/     # 类型定义
-│   │   └── client.ts  # HTTP 客户端
-│   ├── mock/          # Mock 数据
-│   └── utils.ts       # 工具函数
-└── types.ts           # 全局类型定义
+│   ├── api/            # API 相关
+│   │   ├── services/   # API 服务
+│   │   ├── types/      # 类型定义
+│   │   └── client.ts   # HTTP 客户端
+│   ├── mock/           # Mock 数据
+│   └── utils.ts        # 工具函数
+└── types.ts            # 全局类型定义
 ```
