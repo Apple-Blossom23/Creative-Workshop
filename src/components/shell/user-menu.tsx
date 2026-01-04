@@ -6,6 +6,8 @@ import { Avatar } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuItem, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { authApi } from "@/lib/api/services/auth";
 import type { UserProfile } from "@/lib/api/types/user";
+import { LevelBadge } from "@/components/ui/level-badge";
+import { RoleBadge } from "@/components/ui/role-badge";
 
 interface UserMenuProps {
   user: UserProfile;
@@ -35,14 +37,22 @@ export function UserMenu({ user }: UserMenuProps) {
             className="h-8 w-8" 
           />
           <div className="hidden sm:block text-left">
-            <div className="text-sm font-medium">{user.nickname || user.username}</div>
-            <div className="text-xs text-muted-foreground">{user.role}</div>
+            <div className="flex items-center gap-1.5">
+              <span className="text-sm font-medium">{user.nickname || user.username}</span>
+              <LevelBadge level={user.level} lightning={user.lightning} size="sm" />
+              <RoleBadge role={user.role} size="sm" />
+            </div>
+            <div className="text-xs text-muted-foreground">@{user.username}</div>
           </div>
         </div>
       }
     >
       <div className="px-4 py-3 border-b border-border">
-        <div className="font-medium">{user.nickname || user.username}</div>
+        <div className="flex items-center gap-1.5">
+          <span className="font-medium">{user.nickname || user.username}</span>
+          <LevelBadge level={user.level} lightning={user.lightning} size="sm" />
+          <RoleBadge role={user.role} size="sm" />
+        </div>
         <div className="text-sm text-muted-foreground">@{user.username}</div>
       </div>
 
